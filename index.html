@@ -27,19 +27,15 @@
 </head>
 <body class="relative min-h-screen bg-slate-950 text-emerald-400 font-mono flex flex-col items-center justify-center overflow-hidden p-4 md:p-6 select-none">
 
-    <!-- HAQIQIY SOKIN HAPPY BIRTHDAY PIANO MUSIQASI -->
     <audio id="bg-music" loop preload="auto">
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" type="audio/mpeg">
+        <source src="https://cdn.pixabay.com/download/audio/2022/02/22/audio_d1e0750c8e.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- Kiberxavfsizlik Grid foni -->
     <div class="absolute inset-0 bg-[linear-gradient(to_right,#0f172a_1px,transparent_1px),linear-gradient(to_bottom,#0f172a_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-40"></div>
     <div class="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-emerald-500/5 to-transparent h-1/3 w-full animate-scan"></div>
 
-    <!-- Fondagi suzuvchi bayramona zarrachalar -->
     <div id="particles-container" class="absolute inset-0 pointer-events-none"></div>
 
-    <!-- 1. PAROL OYNASI -->
     <div id="auth-screen" class="relative z-10 max-w-md w-full bg-slate-900/90 border border-emerald-500/30 rounded-lg p-6 backdrop-blur-md shadow-[0_0_40px_rgba(16,185,129,0.1)] text-center transition-all duration-500">
         <div class="w-16 h-16 bg-emerald-950/50 border border-emerald-500/40 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse">
             <span class="text-2xl">✨</span>
@@ -54,7 +50,6 @@
         </div>
     </div>
 
-    <!-- 2. ASOSIY TABRIK TERMINALI -->
     <div id="main-terminal" class="hidden relative z-10 max-w-2xl w-full bg-slate-900/95 border border-emerald-500/40 rounded-lg p-5 backdrop-blur-md shadow-[0_0_50px_rgba(16,185,129,0.2)] flex flex-col max-h-[85vh] transition-all duration-500 opacity-0">
         <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4 flex-shrink-0">
             <div class="flex items-center gap-2">
@@ -66,7 +61,6 @@
             <span class="text-[10px] bg-emerald-950 border border-emerald-500/30 text-emerald-400 px-2 py-0.5 rounded animate-pulse">🎂 HAPPY BIRTHDAY</span>
         </div>
 
-        <!-- Tabrik matni -->
         <div id="terminal-body" class="leading-relaxed text-sm md:text-base text-slate-200 overflow-y-auto pr-2 flex-grow font-sans">
             <span class="text-emerald-500 font-mono font-bold">$ run salima_opa_birthday_protocol.sh</span> <br />
             <span class="text-slate-500 font-mono" id="timestamp"></span> <br /><br />
@@ -94,13 +88,13 @@
             const errMsg = document.getElementById('error-message');
             
             if (input === SECRET_KEY) {
-                // MUSIQANI ENG CHIROYLI MEZONDA CHALISH
+                // ROMANTIK PIANO MUSIQASINI MAYIN CHALISH
                 const bgMusic = document.getElementById('bg-music');
                 bgMusic.currentTime = 0;
-                bgMusic.volume = 0.55; 
+                bgMusic.volume = 0.45; // Matn bemalol o'qilishi uchun ovoz pastroq va mayin o'rnatildi
                 bgMusic.play().catch(e => console.log("Musiqa ijro etilmadi:", e));
 
-                // Bayramona sokin rangli zarrachalar
+                // Bayramona yaltiroq konfetilar otilishi
                 confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
 
                 // Ekranlarni almashtirish
