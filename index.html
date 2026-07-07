@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>S_OPA_MATRIX_PROTOCOL</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Konfeti va yaltiroqlar otilishi uchun tayyor kutubxona -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         @keyframes floatUp {
@@ -27,11 +28,28 @@
 </head>
 <body class="relative min-h-screen bg-slate-950 text-emerald-400 font-mono flex flex-col items-center justify-center overflow-hidden p-4 md:p-6 select-none">
 
+    <!-- AUDIO ELEMENTLAR -->
+    <!-- Sokin va chiroyli tug'ilgan kun fon musiqasi (Lofi / Piano) -->
+    <audio id="bg-music" loop>
+        <source src="https://assets.mixkit.co/music/preview/mixkit-beautiful-dream-493.mp3" type="audio/mpeg">
+    </audio>
+    <!-- Salyut / Portlash ovozi -->
+    <audio id="firework-sound">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-firework-explosion-1348.mp3" type="audio/mpeg">
+    </audio>
+    <!-- Klaviatura "chik-chik" ovozi -->
+    <audio id="typing-sound" loop>
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-computer-keyboard-typing-1386.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Kiberxavfsizlik Grid foni -->
     <div class="absolute inset-0 bg-[linear-gradient(to_right,#0f172a_1px,transparent_1px),linear-gradient(to_bottom,#0f172a_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-40"></div>
     <div class="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-emerald-500/5 to-transparent h-1/3 w-full animate-scan"></div>
 
+    <!-- Elementlar (Yuraklar, Matrix va Bayram uchqunlari) konteyneri -->
     <div id="particles-container" class="absolute inset-0 pointer-events-none"></div>
 
+    <!-- 1. PAROL OYNASI -->
     <div id="auth-screen" class="relative z-10 max-w-md w-full bg-slate-900/90 border border-emerald-500/30 rounded-lg p-6 backdrop-blur-md shadow-[0_0_40px_rgba(16,185,129,0.1)] text-center transition-all duration-500">
         <div class="w-16 h-16 bg-emerald-950/50 border border-emerald-500/40 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse">
             <span class="text-2xl">✨</span>
@@ -46,6 +64,7 @@
         </div>
     </div>
 
+    <!-- 2. ASOSIY TABRIK TERMINALI -->
     <div id="main-terminal" class="hidden relative z-10 max-w-2xl w-full bg-slate-900/95 border border-emerald-500/40 rounded-lg p-5 backdrop-blur-md shadow-[0_0_50px_rgba(16,185,129,0.2)] flex flex-col max-h-[85vh] transition-all duration-500 opacity-0">
         <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4 flex-shrink-0">
             <div class="flex items-center gap-2">
@@ -57,10 +76,11 @@
             <span class="text-[10px] bg-emerald-950 border border-emerald-500/30 text-emerald-400 px-2 py-0.5 rounded animate-pulse">🎂 HAPPY BIRTHDAY</span>
         </div>
 
+        <!-- Tabrik matni chiqadigan maydon -->
         <div id="terminal-body" class="leading-relaxed text-sm md:text-base text-slate-200 overflow-y-auto pr-2 flex-grow font-sans">
             <span class="text-emerald-500 font-mono font-bold">$ run salima_opa_birthday_protocol.sh</span> <br />
             <span class="text-slate-500 font-mono" id="timestamp"></span> <br /><br />
-            <div id="typing-text" class="space-y-4"></div><span class="animate-pulse font-bold text-emerald-400">|</span>
+            <div id="typing-text" class="space-y-4"></div><span id="cursor" class="animate-pulse font-bold text-emerald-400">|</span>
         </div>
     </div>
 
@@ -72,10 +92,9 @@
         // TUG'ILGAN KUN PAROLI: 08-iyul -> 0807
         const SECRET_KEY = "0807"; 
 
-        // CHIROYLI VA TABIIY TABRIK MATNI (Xatboshilar bilan)
         const paragraphs = [
             "✨ Assalomu alaykum, mening qadrli va aziz insonim, ham mehribon holam, ham hayot yo'limni yoritayotgan hurmatli Ustozim — Salima opa!",
-            "🎂 Bugun hayotimda o'rni beqiyos bo'lgan, qalbi quyoshdek issiq va so'zlari har qanday qulfga kalit bo'la oladigan aziz insonimning tavallud ayyomi. Ushbu raqamli dunyoning kiber sahifasida sizga bo'lgan eng samimiy, eng toza va cheksiz hurmatimni tilaklarim bilan muhrlagim keldi.",
+            "🎂 Bugun hayotimda o'rni beqiyos bo'lgan, qalbi quyoshdek issiq va so'zlari har qanday qulfga kalit bo'la oladigan aziz insonimning tavallud ayyomi. Gant ushbu raqamli worldning kiber sahifasida sizga bo'lgan eng samimiy, eng toza va cheksiz hurmatimni tilaklarim bilan muhrlagim keldi.",
             "🌿 Siz men uchun shunchaki xola emassiz — siz menga ilm bergan, hayotda to'g'ri yo'lni ko'rsatgan va har doim ruhan qo'llab-quvvatlagan buyuk ustozsiz. Dunyoda ustozlar ko'p, lekin ham qon-qardosh bo'lib, ham qalbga ilm nurini bera oladigan ustozlar juda noyobdir. Men hayotda sizdek insonning jiyani va shogirdi bo'lganimdan faxrlanaman.",
             "💎 Salima opa, ushbu qutlug' yoshingizda sizga Allohdan eng avvalo mustahkam sog'lik, oilaviy xotirjamlik va bitmas-tuganmas baxt tilayman. Yuzingizdan bu tabassum va nurlilik hech qachon arimasin. Biz shogirdlaringiz va yaqinlaringiz baxtiga doimo sog'-salomat bo'lib, hayotning eng go'zal cho'qqilarida duo qilib yuring.",
             "🚀 Ustozlik va insoniylik maqomingiz har doim yuksaklarda bo'lsin. Tug'ilgan kuningiz muborak bo'lsin, mening aziz Ustozim, jonajon Salima opam! 🎉✨"
@@ -86,17 +105,27 @@
             const errMsg = document.getElementById('error-message');
             
             if (input === SECRET_KEY) {
-                // PAROL TO'G'RI BO'LSA - KONFETILAR VA YALTIROQLAR OTILADI
+                // AUDIO ELEMENTLARNI CHALISH
+                const bgMusic = document.getElementById('bg-music');
+                const fireworkSound = document.getElementById('firework-sound');
+                
+                bgMusic.volume = 0.4; // Fon musiqasi ovozi balandligi (sokinroq)
+                bgMusic.play().catch(e => console.log("Musiqa ijrosida xato:", e));
+                
+                fireworkSound.volume = 0.8; // Salyut ovozi balandligi
+                fireworkSound.play().catch(e => console.log("Salyut ovozida xato:", e));
+
+                // PAROL TO'G'RI BO'LSA - VISUAL SALYUTLAR OTILADI
                 var duration = 4 * 1000;
                 var end = Date.now() + duration;
 
                 (function frame() {
-                    confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#10b981', '#f59e0b', '#ffffff', '#3b82f6'] });
-                    confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#10b981', '#f59e0b', '#ffffff', '#3b82f6'] });
+                    confetti({ particleCount: 6, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#10b981', '#f59e0b', '#ffffff', '#ec4899'] });
+                    confetti({ particleCount: 6, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#10b981', '#f59e0b', '#ffffff', '#ec4899'] });
                     if (Date.now() < end) { requestAnimationFrame(frame); }
                 }());
 
-                // Ekranlarni almashtirish
+                // Ekranlarni almashtirish effektlari
                 const authScreen = document.getElementById('auth-screen');
                 const mainTerminal = document.getElementById('main-terminal');
                 
@@ -117,19 +146,23 @@
             }
         }
 
-        // Enter bosilganda ham tekshirish
         document.getElementById('password-input').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') { checkPassword(); }
         });
 
-        // Tabiiy va sekin yozilish effekti
+        // Tabiiy yozilish va klaviatura ovozi effekti
         let pIndex = 0;
         let cIndex = 0;
         const typingContainer = document.getElementById('typing-text');
         const terminalBody = document.getElementById('terminal-body');
+        const typingSound = document.getElementById('typing-sound');
         let currentParagraphElement;
 
         function startTyping() {
+            // Matn yozila boshlaganda "chik-chik" ovozini yoqamiz
+            typingSound.volume = 0.5;
+            typingSound.play().catch(e => console.log(e));
+
             function type() {
                 if (pIndex < paragraphs.length) {
                     if (cIndex === 0) {
@@ -142,29 +175,40 @@
                         currentParagraphElement.innerHTML += currentText.charAt(cIndex);
                         cIndex++;
                         terminalBody.scrollTop = terminalBody.scrollHeight;
-                        setTimeout(type, 60); // Tabiiy sekinlikda yoziladi
+                        setTimeout(type, 55); 
                     } else {
                         pIndex++;
                         cIndex = 0;
-                        setTimeout(type, 1000); // Xatboshilar orasida 1 sekund kutadi
+                        // Xatboshilar orasida to'xtaganda ovozni vaqtincha pasaytiramiz
+                        typingSound.pause();
+                        setTimeout(() => {
+                            if(pIndex < paragraphs.length) {
+                                typingSound.play().catch(e => console.log(e));
+                            }
+                            type();
+                        }, 900); 
                     }
                 } else {
-                    // Matn tugagach yana bitta katta salyut otiladi
+                    // Hamma matn tugagach chik-chik ovozi o'chadi
+                    typingSound.pause();
+                    // Yakuniy katta salyut otiladi
+                    const fireworkSound = document.getElementById('firework-sound');
+                    fireworkSound.play().catch(e => console.log(e));
                     confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
                 }
             }
             type();
         }
 
-        // Fondagi kiber va bayramona yaltiroq zarrachalar generatsiyasi
+        // Fondagi elementlar generatori
         const container = document.getElementById('particles-container');
         const styles = [
-            { text: '✨', color: '#f59e0b', glow: 'rgba(245, 158, 11, 0.7)' }, // Oltin yulduzchalar
-            { text: '🎂', color: '#ec4899', glow: 'rgba(236, 72, 153, 0.5)' },  // Tort
-            { text: '💚', color: '#10b981', glow: 'rgba(16, 185, 129, 0.6)' }, // Yashil yurak
-            { text: '🤍', color: '#f8fafc', glow: 'rgba(255, 255, 255, 0.6)' }, // Oq yurak
-            { text: '0', color: '#10b981', glow: 'rgba(16, 185, 129, 0.3)' },   // Matrix 0 kodi
-            { text: '1', color: '#10b981', glow: 'rgba(16, 185, 129, 0.3)' }    // Matrix 1 kodi
+            { text: '✨', color: '#f59e0b', glow: 'rgba(245, 158, 11, 0.7)' }, 
+            { text: '🎂', color: '#ec4899', glow: 'rgba(236, 72, 153, 0.5)' },  
+            { text: '💚', color: '#10b981', glow: 'rgba(16, 185, 129, 0.6)' }, 
+            { text: '🤍', color: '#f8fafc', glow: 'rgba(255, 255, 255, 0.6)' }, 
+            { text: '0', color: '#10b981', glow: 'rgba(16, 185, 129, 0.3)' },   
+            { text: '1', color: '#10b981', glow: 'rgba(16, 185, 129, 0.3)' }    
         ];
 
         setInterval(() => {
