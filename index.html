@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S_OPA_MATRIX_PROTOCOL</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.4; }
+            100% { transform: translateY(-105vh) rotate(360deg); opacity: 0; }
+        }
+        @keyframes scan {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(300%); }
+        }
+        .animate-scan { animation: scan 8s linear infinite; }
+        .cyber-particle { animation: floatUp linear forwards; }
+        
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.5); }
+        ::-webkit-scrollbar-thumb { background: rgba(16, 185, 129, 0.3); border-radius: 4px; }
+    </style>
+</head>
+<body class="relative min-h-screen bg-slate-950 text-emerald-400 font-mono flex flex-col items-center justify-center overflow-hidden p-4 md:p-6 select-none">
+
+    <div class="absolute inset-0 bg-[linear-gradient(to_right,#0f172a_1px,transparent_1px),linear-gradient(to_bottom,#0f172a_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-40"></div>
+    <div class="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-emerald-500/5 to-transparent h-1/3 w-full animate-scan"></div>
+
+    <div id="particles-container" class="absolute inset-0 pointer-events-none"></div>
+
+    <div id="auth-screen" class="relative z-10 max-w-md w-full bg-slate-900/90 border border-emerald-500/30 rounded-lg p-6 backdrop-blur-md shadow-[0_0_40px_rgba(16,185,129,0.1)] text-center transition-all duration-500">
+        <div class="w-16 h-16 bg-emerald-950/50 border border-emerald-500/40 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse">
+            <span class="text-2xl">✨</span>
+        </div>
+        <h2 class="text-emerald-400 font-bold text-lg mb-2 uppercase tracking-widest">SYSTEM AUTHENTIFICATION</h2>
+        <p class="text-xs text-slate-500 mb-6">Salima opamizning shaxsiy tabrik protokoliga kirish kalitini kiriting.</p>
+        
+        <div class="space-y-4">
+            <input type="password" id="password-input" placeholder="TUG'ILGAN KUN KODI (DDMM)..." class="w-full bg-slate-950 border border-slate-800 rounded px-4 py-3 text-center text-emerald-400 focus:outline-none focus:border-emerald-500/50 tracking-widest text-sm font-bold">
+            <button onclick="checkPassword()" class="w-full bg-emerald-950/45 hover:bg-emerald-900/60 border border-emerald-500/40 text-emerald-400 py-3 rounded text-sm font-bold uppercase tracking-widest transition-colors duration-200">DECRYPT WISHES</button>
+            <p id="error-message" class="text-xs text-red-500 h-4 mt-2 font-bold"></p>
+        </div>
+    </div>
+
+    <div id="main-terminal" class="hidden relative z-10 max-w-2xl w-full bg-slate-900/95 border border-emerald-500/40 rounded-lg p-5 backdrop-blur-md shadow-[0_0_50px_rgba(16,185,129,0.2)] flex flex-col max-h-[85vh] transition-all duration-500 opacity-0">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4 flex-shrink-0">
+            <div class="flex items-center gap-2">
+                <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+                <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                <div class="w-3 h-3 rounded-full bg-emerald-500/80"></div>
+                <span class="text-xs text-slate-500 ml-2">salima_opa_wishes.log</span>
+            </div>
+            <span class="text-[10px] bg-emerald-950 border border-emerald-500/30 text-emerald-400 px-2 py-0.5 rounded animate-pulse">🎂 HAPPY BIRTHDAY</span>
+        </div>
+
+        <div id="terminal-body" class="leading-relaxed text-sm md:text-base text-slate-200 overflow-y-auto pr-2 flex-grow font-sans">
+            <span class="text-emerald-500 font-mono font-bold">$ run salima_opa_birthday_protocol.sh</span> <br />
+            <span class="text-slate-500 font-mono" id="timestamp"></span> <br /><br />
+            <div id="typing-text" class="space-y-4"></div><span class="animate-pulse font-bold text-emerald-400">|</span>
+        </div>
+    </div>
+
+    <div class="absolute bottom-4 left-4 text-[10px] text-slate-600 z-0">
+        STATUS_SYSTEM_INITIATED // SYSTEM_CELEBRATION_SUCCESS
+    </div>
+
+    <script>
+        // TUG'ILGAN KUN PAROLI: 08-iyul -> 0807
+        const SECRET_KEY = "0807"; 
+
+        // CHIROYLI VA TABIIY TABRIK MATNI (Xatboshilar bilan)
+        const paragraphs = [
+            "✨ Assalomu alaykum, mening qadrli va aziz insonim, ham mehribon holam, ham hayot yo'limni yoritayotgan hurmatli Ustozim — Salima opa!",
+            "🎂 Bugun hayotimda o'rni beqiyos bo'lgan, qalbi quyoshdek issiq va so'zlari har qanday qulfga kalit bo'la oladigan aziz insonimning tavallud ayyomi. Ushbu raqamli dunyoning kiber sahifasida sizga bo'lgan eng samimiy, eng toza va cheksiz hurmatimni tilaklarim bilan muhrlagim keldi.",
+            "🌿 Siz men uchun shunchaki xola emassiz — siz menga ilm bergan, hayotda to'g'ri yo'lni ko'rsatgan va har doim ruhan qo'llab-quvvatlagan buyuk ustozsiz. Dunyoda ustozlar ko'p, lekin ham qon-qardosh bo'lib, ham qalbga ilm nurini bera oladigan ustozlar juda noyobdir. Men hayotda sizdek insonning jiyani va shogirdi bo'lganimdan faxrlanaman.",
+            "💎 Salima opa, ushbu qutlug' yoshingizda sizga Allohdan eng avvalo mustahkam sog'lik, oilaviy xotirjamlik va bitmas-tuganmas baxt tilayman. Yuzingizdan bu tabassum va nurlilik hech qachon arimasin. Biz shogirdlaringiz va yaqinlaringiz baxtiga doimo sog'-salomat bo'lib, hayotning eng go'zal cho'qqilarida duo qilib yuring.",
+            "🚀 Ustozlik va insoniylik maqomingiz har doim yuksaklarda bo'lsin. Tug'ilgan kuningiz muborak bo'lsin, mening aziz Ustozim, jonajon Salima opam! 🎉✨"
+        ];
+
+        function checkPassword() {
+            const input = document.getElementById('password-input').value.trim();
+            const errMsg = document.getElementById('error-message');
+            
+            if (input === SECRET_KEY) {
+                // PAROL TO'G'RI BO'LSA - KONFETILAR VA YALTIROQLAR OTILADI
+                var duration = 4 * 1000;
+                var end = Date.now() + duration;
+
+                (function frame() {
+                    confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#10b981', '#f59e0b', '#ffffff', '#3b82f6'] });
+                    confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#10b981', '#f59e0b', '#ffffff', '#3b82f6'] });
+                    if (Date.now() < end) { requestAnimationFrame(frame); }
+                }());
+
+                // Ekranlarni almashtirish
+                const authScreen = document.getElementById('auth-screen');
+                const mainTerminal = document.getElementById('main-terminal');
+                
+                authScreen.style.opacity = '0';
+                setTimeout(() => {
+                    authScreen.classList.add('hidden');
+                    mainTerminal.classList.remove('hidden');
+                    setTimeout(() => {
+                        mainTerminal.style.opacity = '1';
+                        document.getElementById('timestamp').innerText = "[" + new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString() + "] Status: Access Granted. Happy Birthday!";
+                        startTyping();
+                    }, 50);
+                }, 500);
+            } else {
+                errMsg.innerText = "XATO PAROL! ILTIMOS, QAYTADAN TEKSHIRING.";
+                document.getElementById('password-input').value = "";
+                setTimeout(() => { errMsg.innerText = ""; }, 3000);
+            }
+        }
+
+        // Enter bosilganda ham tekshirish
+        document.getElementById('password-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') { checkPassword(); }
+        });
+
+        // Tabiiy va sekin yozilish effekti
+        let pIndex = 0;
+        let cIndex = 0;
+        const typingContainer = document.getElementById('typing-text');
+        const terminalBody = document.getElementById('terminal-body');
+        let currentParagraphElement;
+
+        function startTyping() {
+            function type() {
+                if (pIndex < paragraphs.length) {
+                    if (cIndex === 0) {
+                        currentParagraphElement = document.createElement('p');
+                        typingContainer.appendChild(currentParagraphElement);
+                    }
+                    
+                    let currentText = paragraphs[pIndex];
+                    if (cIndex < currentText.length) {
+                        currentParagraphElement.innerHTML += currentText.charAt(cIndex);
+                        cIndex++;
+                        terminalBody.scrollTop = terminalBody.scrollHeight;
+                        setTimeout(type, 60); // Tabiiy sekinlikda yoziladi
+                    } else {
+                        pIndex++;
+                        cIndex = 0;
+                        setTimeout(type, 1000); // Xatboshilar orasida 1 sekund kutadi
+                    }
+                } else {
+                    // Matn tugagach yana bitta katta salyut otiladi
+                    confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
+                }
+            }
+            type();
+        }
+
+        // Fondagi kiber va bayramona yaltiroq zarrachalar generatsiyasi
+        const container = document.getElementById('particles-container');
+        const styles = [
+            { text: '✨', color: '#f59e0b', glow: 'rgba(245, 158, 11, 0.7)' }, // Oltin yulduzchalar
+            { text: '🎂', color: '#ec4899', glow: 'rgba(236, 72, 153, 0.5)' },  // Tort
+            { text: '💚', color: '#10b981', glow: 'rgba(16, 185, 129, 0.6)' }, // Yashil yurak
+            { text: '🤍', color: '#f8fafc', glow: 'rgba(255, 255, 255, 0.6)' }, // Oq yurak
+            { text: '0', color: '#10b981', glow: 'rgba(16, 185, 129, 0.3)' },   // Matrix 0 kodi
+            { text: '1', color: '#10b981', glow: 'rgba(16, 185, 129, 0.3)' }    // Matrix 1 kodi
+        ];
+
+        setInterval(() => {
+            const particle = document.createElement('span');
+            const randomStyle = styles[Math.floor(Math.random() * styles.length)];
+            
+            particle.className = 'absolute bottom-[-30px] font-bold cyber-particle';
+            particle.innerText = randomStyle.text;
+            particle.style.color = randomStyle.color;
+            particle.style.left = Math.random() * 100 + '%';
+            
+            const size = Math.random() * 22 + 12;
+            particle.style.fontSize = size + 'px';
+            
+            const duration = Math.random() * 5 + 5;
+            particle.style.animationDuration = duration + 's';
+            particle.style.textShadow = `0 0 12px ${randomStyle.glow}`;
+            
+            container.appendChild(particle);
+            setTimeout(() => particle.remove(), duration * 1000);
+        }, 350);
+    </script>
+</body>
+</html>
