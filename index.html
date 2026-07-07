@@ -28,18 +28,18 @@
 </head>
 <body class="relative min-h-screen bg-slate-950 text-emerald-400 font-mono flex flex-col items-center justify-center overflow-hidden p-4 md:p-6 select-none">
 
-    <!-- AUDIO ELEMENTLAR -->
-    <!-- Sokin va chiroyli tug'ilgan kun fon musiqasi (Lofi / Piano) -->
-    <audio id="bg-music" loop>
-        <source src="https://assets.mixkit.co/music/preview/mixkit-beautiful-dream-493.mp3" type="audio/mpeg">
+    <!-- AUDIO ELEMENTLAR (100% ISHLAYDIGAN ISHONCHLI MANBALAR) -->
+    <!-- Sokin va go'zal fon musiqasi (Piano) -->
+    <audio id="bg-music" loop preload="auto">
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
     </audio>
     <!-- Salyut / Portlash ovozi -->
-    <audio id="firework-sound">
-        <source src="https://assets.mixkit.co/sfx/preview/mixkit-firework-explosion-1348.mp3" type="audio/mpeg">
+    <audio id="firework-sound" preload="auto">
+        <source src="https://cdn.pixabay.com/download/audio/2022/03/09/audio_c1f9630713.mp3" type="audio/mpeg">
     </audio>
     <!-- Klaviatura "chik-chik" ovozi -->
-    <audio id="typing-sound" loop>
-        <source src="https://assets.mixkit.co/sfx/preview/mixkit-computer-keyboard-typing-1386.mp3" type="audio/mpeg">
+    <audio id="typing-sound" loop preload="auto">
+        <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_73ab6e0263.mp3" type="audio/mpeg">
     </audio>
 
     <!-- Kiberxavfsizlik Grid foni -->
@@ -54,10 +54,11 @@
         <div class="w-16 h-16 bg-emerald-950/50 border border-emerald-500/40 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse">
             <span class="text-2xl">✨</span>
         </div>
-        <h2 class="text-emerald-400 font-bold text-lg mb-2 uppercase tracking-widest">SYSTEM AUTHENTIFICATION</h2>
+        <h2 class="text-emerald-400 font-bold text-lg mb-2 uppercase tracking-widest">SYSTEM AUTHENTICATION</h2>
         <p class="text-xs text-slate-500 mb-6">Salima opamizning shaxsiy tabrik protokoliga kirish kalitini kiriting.</p>
         
         <div class="space-y-4">
+            <!-- Bugun 8-iyul bo'lgani uchun parol: 0807 -->
             <input type="password" id="password-input" placeholder="TUG'ILGAN KUN KODI (DDMM)..." class="w-full bg-slate-950 border border-slate-800 rounded px-4 py-3 text-center text-emerald-400 focus:outline-none focus:border-emerald-500/50 tracking-widest text-sm font-bold">
             <button onclick="checkPassword()" class="w-full bg-emerald-950/45 hover:bg-emerald-900/60 border border-emerald-500/40 text-emerald-400 py-3 rounded text-sm font-bold uppercase tracking-widest transition-colors duration-200">DECRYPT WISHES</button>
             <p id="error-message" class="text-xs text-red-500 h-4 mt-2 font-bold"></p>
@@ -89,12 +90,12 @@
     </div>
 
     <script>
-        // TUG'ILGAN KUN PAROLI: 08-iyul -> 0807
+        // TUG'ILGAN KUN PAROLI: 0807
         const SECRET_KEY = "0807"; 
 
         const paragraphs = [
             "✨ Assalomu alaykum, mening qadrli va aziz insonim, ham mehribon holam, ham hayot yo'limni yoritayotgan hurmatli Ustozim — Salima opa!",
-            "🎂 Bugun hayotimda o'rni beqiyos bo'lgan, qalbi quyoshdek issiq va so'zlari har qanday qulfga kalit bo'la oladigan aziz insonimning tavallud ayyomi. Gant ushbu raqamli worldning kiber sahifasida sizga bo'lgan eng samimiy, eng toza va cheksiz hurmatimni tilaklarim bilan muhrlagim keldi.",
+            "🎂 Bugun hayotimda o'rni beqiyos bo'lgan, qalbi quyoshdek issiq va so'zlari har qanday qulfga kalit bo'la oladigan aziz insonimning tavallud ayyomi. Ushbu raqamli dunyoning kiber sahifasida sizga bo'lgan eng samimiy, eng toza va cheksiz hurmatimni tilaklarim bilan muhrlagim keldi.",
             "🌿 Siz men uchun shunchaki xola emassiz — siz menga ilm bergan, hayotda to'g'ri yo'lni ko'rsatgan va har doim ruhan qo'llab-quvvatlagan buyuk ustozsiz. Dunyoda ustozlar ko'p, lekin ham qon-qardosh bo'lib, ham qalbga ilm nurini bera oladigan ustozlar juda noyobdir. Men hayotda sizdek insonning jiyani va shogirdi bo'lganimdan faxrlanaman.",
             "💎 Salima opa, ushbu qutlug' yoshingizda sizga Allohdan eng avvalo mustahkam sog'lik, oilaviy xotirjamlik va bitmas-tuganmas baxt tilayman. Yuzingizdan bu tabassum va nurlilik hech qachon arimasin. Biz shogirdlaringiz va yaqinlaringiz baxtiga doimo sog'-salomat bo'lib, hayotning eng go'zal cho'qqilarida duo qilib yuring.",
             "🚀 Ustozlik va insoniylik maqomingiz har doim yuksaklarda bo'lsin. Tug'ilgan kuningiz muborak bo'lsin, mening aziz Ustozim, jonajon Salima opam! 🎉✨"
@@ -105,17 +106,17 @@
             const errMsg = document.getElementById('error-message');
             
             if (input === SECRET_KEY) {
-                // AUDIO ELEMENTLARNI CHALISH
+                // AUDIO EFFEKTLARINI FAOLASHTIRISH
                 const bgMusic = document.getElementById('bg-music');
                 const fireworkSound = document.getElementById('firework-sound');
                 
-                bgMusic.volume = 0.4; // Fon musiqasi ovozi balandligi (sokinroq)
-                bgMusic.play().catch(e => console.log("Musiqa ijrosida xato:", e));
+                bgMusic.volume = 0.25; // Fon musiqasi mayin eshitilishi uchun balandligi pasaytirildi
+                bgMusic.play().catch(e => console.log("Musiqa xatosi:", e));
                 
-                fireworkSound.volume = 0.8; // Salyut ovozi balandligi
-                fireworkSound.play().catch(e => console.log("Salyut ovozida xato:", e));
+                fireworkSound.volume = 0.7; // Portlash ovozi
+                fireworkSound.play().catch(e => console.log("Salyut xatosi:", e));
 
-                // PAROL TO'G'RI BO'LSA - VISUAL SALYUTLAR OTILADI
+                // VISUAL KONFETILAR PORTLASHI
                 var duration = 4 * 1000;
                 var end = Date.now() + duration;
 
@@ -125,7 +126,7 @@
                     if (Date.now() < end) { requestAnimationFrame(frame); }
                 }());
 
-                // Ekranlarni almashtirish effektlari
+                // Ekranlarni almashtirish
                 const authScreen = document.getElementById('auth-screen');
                 const mainTerminal = document.getElementById('main-terminal');
                 
@@ -150,7 +151,7 @@
             if (e.key === 'Enter') { checkPassword(); }
         });
 
-        // Tabiiy yozilish va klaviatura ovozi effekti
+        // Matn yozilishi va "chik-chik" ovozi effekti
         let pIndex = 0;
         let cIndex = 0;
         const typingContainer = document.getElementById('typing-text');
@@ -159,8 +160,7 @@
         let currentParagraphElement;
 
         function startTyping() {
-            // Matn yozila boshlaganda "chik-chik" ovozini yoqamiz
-            typingSound.volume = 0.5;
+            typingSound.volume = 0.3; // Klaviatura ovozi balandligi
             typingSound.play().catch(e => console.log(e));
 
             function type() {
@@ -179,8 +179,7 @@
                     } else {
                         pIndex++;
                         cIndex = 0;
-                        // Xatboshilar orasida to'xtaganda ovozni vaqtincha pasaytiramiz
-                        typingSound.pause();
+                        typingSound.pause(); // Xatboshilar orasida pauza
                         setTimeout(() => {
                             if(pIndex < paragraphs.length) {
                                 typingSound.play().catch(e => console.log(e));
@@ -189,18 +188,16 @@
                         }, 900); 
                     }
                 } else {
-                    // Hamma matn tugagach chik-chik ovozi o'chadi
-                    typingSound.pause();
-                    // Yakuniy katta salyut otiladi
+                    typingSound.pause(); // Hamma matn tugagach ovoz o'chadi
                     const fireworkSound = document.getElementById('firework-sound');
                     fireworkSound.play().catch(e => console.log(e));
-                    confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
+                    confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } }); // Yakuniy salyut
                 }
             }
             type();
         }
 
-        // Fondagi elementlar generatori
+        // Fondagi suzuvchi bayramona elementlar generatori
         const container = document.getElementById('particles-container');
         const styles = [
             { text: '✨', color: '#f59e0b', glow: 'rgba(245, 158, 11, 0.7)' }, 
