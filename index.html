@@ -27,9 +27,9 @@
 </head>
 <body class="relative min-h-screen bg-slate-950 text-emerald-400 font-mono flex flex-col items-center justify-center overflow-hidden p-4 md:p-6 select-none">
 
-    <!-- ENG ISHONCHLI VA SOKIN ROMANTIK PIANO MUSIQASI -->
+    <!-- HAQIQIY SOKIN HAPPY BIRTHDAY PIANO MUSIQASI -->
     <audio id="bg-music" loop preload="auto">
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" type="audio/mpeg">
     </audio>
 
     <!-- Kiberxavfsizlik Grid foni -->
@@ -94,13 +94,13 @@
             const errMsg = document.getElementById('error-message');
             
             if (input === SECRET_KEY) {
-                // MUSIQANI ISHGA TUSHIRISH
+                // MUSIQANI ENG CHIROYLI MEZONDA CHALISH
                 const bgMusic = document.getElementById('bg-music');
                 bgMusic.currentTime = 0;
-                bgMusic.volume = 0.5; // Orqada mayin chalinishi uchun 50% balandlik
-                bgMusic.play().catch(e => console.log("Musiqa xatosi:", e));
+                bgMusic.volume = 0.55; 
+                bgMusic.play().catch(e => console.log("Musiqa ijro etilmadi:", e));
 
-                // Bayramona konfetilar
+                // Bayramona sokin rangli zarrachalar
                 confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
 
                 // Ekranlarni almashtirish
@@ -161,7 +161,7 @@
             type();
         }
 
-        // Fondagi suzuvchi zarrachalar
+        // Fondagi suzuvchi chiroyli elementlar
         const container = document.getElementById('particles-container');
         const styles = [
             { text: '✨', color: '#f59e0b', glow: 'rgba(245, 158, 11, 0.7)' }, 
