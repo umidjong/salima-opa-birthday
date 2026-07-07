@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>S_OPA_MATRIX_PROTOCOL</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Konfeti va yaltiroqlar otilishi uchun kutubxona -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         @keyframes floatUp {
@@ -28,28 +27,16 @@
 </head>
 <body class="relative min-h-screen bg-slate-950 text-emerald-400 font-mono flex flex-col items-center justify-center overflow-hidden p-4 md:p-6 select-none">
 
-    <!-- MP3 OVOZLAR (YANGI VA ENG SIFATLI MANBALAR) -->
-    <!-- 1. Happy Birthday To You (Sokin, chiroyli piano foni) -->
+    <!-- FAQAT HAPPY BIRTHDAY QO'SHIG'I -->
     <audio id="bg-music" loop preload="auto">
         <source src="https://cdn.pixabay.com/download/audio/2023/11/09/audio_277ee7eb0c.mp3" type="audio/mpeg">
-    </audio>
-    
-    <!-- 2. Salyut portlashi va odamlarning "Vuuuu" deb baqirishi (Crowd Cheering + Fireworks) -->
-    <audio id="firework-sound" preload="auto">
-        <source src="https://cdn.pixabay.com/download/audio/2022/03/09/audio_b20cc329e4.mp3" type="audio/mpeg">
-    </audio>
-    
-    <!-- 3. Klaviaturaning realistik harfma-harf "chik-chik" ovozi -->
-    <audio id="typing-sound" loop preload="auto">
-        <source src="https://api.coderun.uz/sounds/keyboard.mp3" type="audio/mpeg">
-        <source src="https://codeskulptor-demos.commondatastorage.googleapis.com/GalaxyInvaders/bonus.wav" type="audio/wav">
     </audio>
 
     <!-- Kiberxavfsizlik Grid foni -->
     <div class="absolute inset-0 bg-[linear-gradient(to_right,#0f172a_1px,transparent_1px),linear-gradient(to_bottom,#0f172a_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-40"></div>
     <div class="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-emerald-500/5 to-transparent h-1/3 w-full animate-scan"></div>
 
-    <!-- Elementlar (Yuraklar va Bayram uchqunlari) konteyneri -->
+    <!-- Fondagi suzuvchi bayramona zarrachalar -->
     <div id="particles-container" class="absolute inset-0 pointer-events-none"></div>
 
     <!-- 1. PAROL OYNASI -->
@@ -79,7 +66,7 @@
             <span class="text-[10px] bg-emerald-950 border border-emerald-500/30 text-emerald-400 px-2 py-0.5 rounded animate-pulse">🎂 HAPPY BIRTHDAY</span>
         </div>
 
-        <!-- Tabrik matni chiqadigan maydon -->
+        <!-- Tabrik matni -->
         <div id="terminal-body" class="leading-relaxed text-sm md:text-base text-slate-200 overflow-y-auto pr-2 flex-grow font-sans">
             <span class="text-emerald-500 font-mono font-bold">$ run salima_opa_birthday_protocol.sh</span> <br />
             <span class="text-slate-500 font-mono" id="timestamp"></span> <br /><br />
@@ -107,31 +94,16 @@
             const errMsg = document.getElementById('error-message');
             
             if (input === SECRET_KEY) {
-                // AUDIO EFFEKTLARINI ISHGA TUSHIROVCHI KOD (Barcha brauzerlar uchun ruxsat berish)
+                // FAQAT MUSIQANI ENG CHIROYLI BALANDLIKDA CHALISH
                 const bgMusic = document.getElementById('bg-music');
-                const fireworkSound = document.getElementById('firework-sound');
-                
-                // Salyut va olomonning "Vuuu" ovozini balandroq chalish
-                fireworkSound.currentTime = 0;
-                fireworkSound.volume = 1.0; 
-                fireworkSound.play().catch(e => console.log("Salyut ovozi xatosi:", e));
-
-                // Happy Birthday To You musiqasini orqada sokinroq chalish
                 bgMusic.currentTime = 0;
-                bgMusic.volume = 0.4; 
-                bgMusic.play().catch(e => console.log("Fon musiqasi xatosi:", e));
+                bgMusic.volume = 0.6; 
+                bgMusic.play().catch(e => console.log("Musiqa xatosi:", e));
 
-                // VISUAL SALYUTLAR PORTLASHI
-                var duration = 5 * 1000;
-                var end = Date.now() + duration;
+                // Ekranda vizual konfetilar bayramona otilishi
+                confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
 
-                (function frame() {
-                    confetti({ particleCount: 7, angle: 60, spread: 60, origin: { x: 0 }, colors: ['#10b981', '#f59e0b', '#ffffff', '#ec4899', '#3b82f6'] });
-                    confetti({ particleCount: 7, angle: 120, spread: 60, origin: { x: 1 }, colors: ['#10b981', '#f59e0b', '#ffffff', '#ec4899', '#3b82f6'] });
-                    if (Date.now() < end) { requestAnimationFrame(frame); }
-                }());
-
-                // Ekran almashishi
+                // Ekranlarni almashtirish
                 const authScreen = document.getElementById('auth-screen');
                 const mainTerminal = document.getElementById('main-terminal');
                 
@@ -156,18 +128,14 @@
             if (e.key === 'Enter') { checkPassword(); }
         });
 
-        // "Chik-chik" va matn yozilish mexanizmi
+        // Ovozlarsiz faqat matn yozilish mexanizmi
         let pIndex = 0;
         let cIndex = 0;
         const typingContainer = document.getElementById('typing-text');
         const terminalBody = document.getElementById('terminal-body');
-        const typingSound = document.getElementById('typing-sound');
         let currentParagraphElement;
 
         function startTyping() {
-            typingSound.volume = 0.5;
-            typingSound.play().catch(e => console.log("Yozish ovozi xatosi:", e));
-
             function type() {
                 if (pIndex < paragraphs.length) {
                     if (cIndex === 0) {
@@ -180,37 +148,27 @@
                         currentParagraphElement.innerHTML += currentText.charAt(cIndex);
                         cIndex++;
                         terminalBody.scrollTop = terminalBody.scrollHeight;
-                        setTimeout(type, 50); 
+                        setTimeout(type, 40); // Matn silliq va biroz tezroq yoziladi
                     } else {
                         pIndex++;
                         cIndex = 0;
-                        typingSound.pause(); // Xatboshilar orasida pauza
-                        setTimeout(() => {
-                            if(pIndex < paragraphs.length) {
-                                typingSound.play().catch(e => console.log(e));
-                            }
-                            type();
-                        }, 800); 
+                        setTimeout(type, 600); 
                     }
                 } else {
-                    typingSound.pause(); // Tugagach o'chadi
-                    // Oxirida yana bir bor salyut va "Vuuu" ovozini takrorlash
-                    const fireworkSound = document.getElementById('firework-sound');
-                    fireworkSound.currentTime = 0;
-                    fireworkSound.play().catch(e => console.log(e));
-                    confetti({ particleCount: 200, spread: 90, origin: { y: 0.6 } });
+                    // Oxirida yakuniy konfeti effekti
+                    confetti({ particleCount: 100, spread: 80, origin: { y: 0.6 } });
                 }
             }
             type();
         }
 
-        // Fondagi animatsiyali zarrachalar
+        // Fondagi suzuvchi elementlar
         const container = document.getElementById('particles-container');
         const styles = [
             { text: '✨', color: '#f59e0b', glow: 'rgba(245, 158, 11, 0.7)' }, 
             { text: '🎂', color: '#ec4899', glow: 'rgba(236, 72, 153, 0.5)' },  
             { text: '💚', color: '#10b981', glow: 'rgba(16, 185, 129, 0.6)' }, 
-            { text: '🤍', color: '#f8fafc', glow: 'rgba(255, 255, 255, 0.6)' }
+            { text: 'White', color: '#f8fafc', glow: 'rgba(255, 255, 255, 0.6)' }
         ];
 
         setInterval(() => {
@@ -218,11 +176,11 @@
             const randomStyle = styles[Math.floor(Math.random() * styles.length)];
             
             particle.className = 'absolute bottom-[-30px] font-bold cyber-particle';
-            particle.innerText = randomStyle.text;
+            particle.innerText = randomStyle.text === 'White' ? '🤍' : randomStyle.text;
             particle.style.color = randomStyle.color;
             particle.style.left = Math.random() * 100 + '%';
             
-            const size = Math.random() * 22 + 12;
+            const size = Math.random() * 20 + 12;
             particle.style.fontSize = size + 'px';
             
             const duration = Math.random() * 5 + 5;
@@ -231,7 +189,7 @@
             
             container.appendChild(particle);
             setTimeout(() => particle.remove(), duration * 1000);
-        }, 350);
+        }, 400);
     </script>
 </body>
 </html>
