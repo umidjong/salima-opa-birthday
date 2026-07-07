@@ -27,9 +27,9 @@
 </head>
 <body class="relative min-h-screen bg-slate-950 text-emerald-400 font-mono flex flex-col items-center justify-center overflow-hidden p-4 md:p-6 select-none">
 
-    <!-- FAQAT HAPPY BIRTHDAY QO'SHIG'I -->
+    <!-- ENG ISHONCHLI VA SOKIN ROMANTIK PIANO MUSIQASI -->
     <audio id="bg-music" loop preload="auto">
-        <source src="https://cdn.pixabay.com/download/audio/2023/11/09/audio_277ee7eb0c.mp3" type="audio/mpeg">
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
     </audio>
 
     <!-- Kiberxavfsizlik Grid foni -->
@@ -94,13 +94,13 @@
             const errMsg = document.getElementById('error-message');
             
             if (input === SECRET_KEY) {
-                // FAQAT MUSIQANI ENG CHIROYLI BALANDLIKDA CHALISH
+                // MUSIQANI ISHGA TUSHIRISH
                 const bgMusic = document.getElementById('bg-music');
                 bgMusic.currentTime = 0;
-                bgMusic.volume = 0.6; 
+                bgMusic.volume = 0.5; // Orqada mayin chalinishi uchun 50% balandlik
                 bgMusic.play().catch(e => console.log("Musiqa xatosi:", e));
 
-                // Ekranda vizual konfetilar bayramona otilishi
+                // Bayramona konfetilar
                 confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
 
                 // Ekranlarni almashtirish
@@ -128,7 +128,7 @@
             if (e.key === 'Enter') { checkPassword(); }
         });
 
-        // Ovozlarsiz faqat matn yozilish mexanizmi
+        // Matn yozilish mexanizmi
         let pIndex = 0;
         let cIndex = 0;
         const typingContainer = document.getElementById('typing-text');
@@ -148,27 +148,26 @@
                         currentParagraphElement.innerHTML += currentText.charAt(cIndex);
                         cIndex++;
                         terminalBody.scrollTop = terminalBody.scrollHeight;
-                        setTimeout(type, 40); // Matn silliq va biroz tezroq yoziladi
+                        setTimeout(type, 45); 
                     } else {
                         pIndex++;
                         cIndex = 0;
                         setTimeout(type, 600); 
                     }
                 } else {
-                    // Oxirida yakuniy konfeti effekti
                     confetti({ particleCount: 100, spread: 80, origin: { y: 0.6 } });
                 }
             }
             type();
         }
 
-        // Fondagi suzuvchi elementlar
+        // Fondagi suzuvchi zarrachalar
         const container = document.getElementById('particles-container');
         const styles = [
             { text: '✨', color: '#f59e0b', glow: 'rgba(245, 158, 11, 0.7)' }, 
             { text: '🎂', color: '#ec4899', glow: 'rgba(236, 72, 153, 0.5)' },  
             { text: '💚', color: '#10b981', glow: 'rgba(16, 185, 129, 0.6)' }, 
-            { text: 'White', color: '#f8fafc', glow: 'rgba(255, 255, 255, 0.6)' }
+            { text: '🤍', color: '#f8fafc', glow: 'rgba(255, 255, 255, 0.6)' }
         ];
 
         setInterval(() => {
@@ -176,7 +175,7 @@
             const randomStyle = styles[Math.floor(Math.random() * styles.length)];
             
             particle.className = 'absolute bottom-[-30px] font-bold cyber-particle';
-            particle.innerText = randomStyle.text === 'White' ? '🤍' : randomStyle.text;
+            particle.innerText = randomStyle.text;
             particle.style.color = randomStyle.color;
             particle.style.left = Math.random() * 100 + '%';
             
